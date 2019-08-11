@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OuderbijdrageSchool"
         mc:Ignorable="d"
-        Title="MainWindow" Height="540" Width="720">
+        Title="MainWindow" Height="600" Width="300">
 
-    <Border Padding="1">
-
+    <Border Padding="1" MaxWidth="300">
         <StackPanel>
+            <TextBlock Text="Reference Date" TextAlignment="Center" />
+            <DatePicker x:Name="DatePicker_ReferenceDate" SelectedDateChanged="DatePicker_ReferenceDate_SelectedDateChanged"/>
+
+            <Border Margin="12" />
 
             <TextBlock Text="Child in question" TextAlignment="Center" />
 
-            <Grid MaxWidth="250">
-
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -23,42 +25,18 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Content="1" Grid.Column="0" Click="Button_ChildNumber_Click" />
-                <Button Content="2" Grid.Column="1" Click="Button_ChildNumber_Click" />
-                <Button Content="3" Grid.Column="2" Click="Button_ChildNumber_Click" />
-                <Button Content="4" Grid.Column="3" Click="Button_ChildNumber_Click" />
-                <Button Content="5" Grid.Column="4" Click="Button_ChildNumber_Click" />
-
+                <Button x:Name="Button_Child1" Content="1" Grid.Column="0" Click="Button_ChildNumber_Click" />
+                <Button x:Name="Button_Child2" Content="2" Grid.Column="1" Click="Button_ChildNumber_Click" />
+                <Button x:Name="Button_Child3" Content="3" Grid.Column="2" Click="Button_ChildNumber_Click" />
+                <Button x:Name="Button_Child4" Content="4" Grid.Column="3" Click="Button_ChildNumber_Click" />
+                <Button x:Name="Button_Child5" Content="5" Grid.Column="4" Click="Button_ChildNumber_Click" />
             </Grid>
 
             <Border Margin="12"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
-                <StackPanel>
-                    <TextBlock Text="Date of birth" TextAlignment="Center" />
-                    <Calendar x:Name="Calendar_BirthDate">
-                        <Calendar.BlackoutDates>
-                            <CalendarDateRange x:Name="CalendarDateRange_TooOld" />
-                            <CalendarDateRange x:Name="CalendarDateRange_TooYoung" />
-                        </Calendar.BlackoutDates>
-                    </Calendar>
-                    <DatePicker>
-                        
-                    </DatePicker>
-                </StackPanel>
-
-                <Border Margin="24"/>
-
-                <StackPanel>
-                    <TextBlock Text="Reference Date" TextAlignment="Center" />
-                    <Calendar x:Name="Calendar_ReferenceDate" DisplayDateChanged="Calendar_ReferenceDate_DisplayDateChanged" />
-                </StackPanel>
-
-            </StackPanel>
-                
+            <TextBlock Text="Date of birth" TextAlignment="Center" />
+            <DatePicker x:Name="DatePicker_BirthDate" SelectedDateChanged="DatePicker_BirthDate_SelectedDateChanged" />
         </StackPanel>
-
     </Border>
 
 </Window>

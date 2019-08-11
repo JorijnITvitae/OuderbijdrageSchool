@@ -21,8 +21,9 @@
             <Setter Property="FontSize" Value="24" />
         </Style>
         
-        <Style TargetType="Calendar">
+        <Style TargetType="DatePicker">
             <Setter Property="Margin" Value="1" />
+            <Setter Property="FontSize" Value="24" />
         </Style>
 
     </Application.Resources>

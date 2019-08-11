@@ -20,31 +20,62 @@ namespace OuderbijdrageSchool
     /// </summary>
     public partial class MainWindow : Window
     {
+        private class Child
+        {
+            private DateTime birthDate;
+
+            public Child()
+            {
+                this.birthDate = new DateTime(1, 1, 1);
+            }
+
+            public DateTime BirthDate
+            {
+                get => new DateTime(this.birthDate.Ticks);
+                set => this.birthDate = new DateTime(value.Ticks);
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             UpdateCalendarDateRanges(DateTime.Now);
+            InitChildren();
         }
 
-        private void UpdateCalendarDateRanges(DateTime today)
-        {
-            var fourYearsAgo = new DateTime(today.Year - 4, today.Month, today.Day);
-            CalendarDateRange_TooYoung.Start = new DateTime(3000, 1, 1);
-            CalendarDateRange_TooYoung.End = fourYearsAgo;
+        private Child[] children;
 
-            var fourteenYearsAgo = new DateTime(today.Year - 14, today.Month, today.Day);
-            CalendarDateRange_TooOld.Start = new DateTime(1000, 1, 1);
-            CalendarDateRange_TooOld.End = fourteenYearsAgo;
+        private void InitChildren()
+        {
+            children = new Child[5];
         }
 
         private void Button_ChildNumber_Click(object sender, RoutedEventArgs e)
         {
-
+            Button_Child1.IsEnabled = true;
+            Button_Child2.IsEnabled = true;
+            Button_Child3.IsEnabled = true;
+            Button_Child4.IsEnabled = true;
+            Button_Child5.IsEnabled = true;
+            ((Button)(sender)).IsEnabled = false;
         }
 
-        private void Calendar_ReferenceDate_DisplayDateChanged(object sender, CalendarDateChangedEventArgs e)
+        private void UpdateCalendarDateRanges(DateTime today)
         {
-            UpdateCalendarDateRanges(Calendar_ReferenceDate.SelectedDates[0]);
+            var fifteenYearsAgo = new DateTime(today.Year - 15, today.Month, today.Day);
+            DatePicker_BirthDate.DisplayDateStart = fifteenYearsAgo;
+            var threeYearsAgo = new DateTime(today.Year - 3, today.Month, today.Day);
+            DatePicker_BirthDate.DisplayDateEnd = threeYearsAgo;
+        }
+
+        private void DatePicker_ReferenceDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateCalendarDateRanges(DatePicker_ReferenceDate.SelectedDate ?? DateTime.Now);
+        }
+
+        private void DatePicker_BirthDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
