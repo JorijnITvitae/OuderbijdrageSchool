@@ -44,12 +44,18 @@ namespace OuderbijdrageSchool
         }
 
         private Child[] children;
+        private int currentChild;
 
         private void InitChildren()
         {
             children = new Child[5];
-        }
+            for (int i = 0; i < 5; i++)
+                children[i] = new Child();
 
+            currentChild = 1;
+            Button_Child1.IsEnabled = false;
+        }
+        
         private void Button_ChildNumber_Click(object sender, RoutedEventArgs e)
         {
             Button_Child1.IsEnabled = true;
@@ -57,7 +63,17 @@ namespace OuderbijdrageSchool
             Button_Child3.IsEnabled = true;
             Button_Child4.IsEnabled = true;
             Button_Child5.IsEnabled = true;
-            ((Button)(sender)).IsEnabled = false;
+
+            var button = (Button)(sender);
+            button.IsEnabled = false;
+
+            currentChild = Convert.ToInt32(button.Content);
+            DateTime birthDate = children[currentChild - 1].BirthDate;
+
+            if (birthDate.Year != 1)
+                DatePicker_BirthDate.SelectedDate = birthDate;
+            else
+                DatePicker_BirthDate.Text = "";
         }
 
         private void UpdateCalendarDateRanges(DateTime today)
@@ -75,7 +91,8 @@ namespace OuderbijdrageSchool
 
         private void DatePicker_BirthDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (DatePicker_BirthDate.Text != "")
+                children[currentChild - 1].BirthDate = DatePicker_BirthDate.SelectedDate ?? DateTime.Now;
         }
     }
 }
