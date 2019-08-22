@@ -23,10 +23,12 @@ namespace OuderbijdrageSchool
         private class Child
         {
             private DateTime birthDate;
+            public bool Older;
 
             public Child()
             {
                 this.birthDate = new DateTime(1, 1, 1);
+                this.Older = false;
             }
 
             public DateTime BirthDate
@@ -41,6 +43,7 @@ namespace OuderbijdrageSchool
             InitializeComponent();
             UpdateCalendarDateRanges(DateTime.Now);
             InitChildren();
+            UpdateCost();
         }
 
         private Child[] children;
@@ -55,7 +58,7 @@ namespace OuderbijdrageSchool
             currentChild = 1;
             Button_Child1.IsEnabled = false;
         }
-        
+
         private void Button_ChildNumber_Click(object sender, RoutedEventArgs e)
         {
             Button_Child1.IsEnabled = true;
@@ -76,23 +79,93 @@ namespace OuderbijdrageSchool
                 DatePicker_BirthDate.Text = "";
         }
 
-        private void UpdateCalendarDateRanges(DateTime today)
+        private void UpdateCalendarDateRanges(DateTime reference)
         {
-            var fifteenYearsAgo = new DateTime(today.Year - 15, today.Month, today.Day);
+            var fifteenYearsAgo = new DateTime(reference.Year - 15, reference.Month, reference.Day);
             DatePicker_BirthDate.DisplayDateStart = fifteenYearsAgo;
-            var threeYearsAgo = new DateTime(today.Year - 3, today.Month, today.Day);
+            var threeYearsAgo = new DateTime(reference.Year - 3, reference.Month, reference.Day);
             DatePicker_BirthDate.DisplayDateEnd = threeYearsAgo;
+            DatePicker_BirthDate.DisplayDate = threeYearsAgo;
         }
 
         private void DatePicker_ReferenceDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateCalendarDateRanges(DatePicker_ReferenceDate.SelectedDate ?? DateTime.Now);
+            var reference = DatePicker_ReferenceDate.SelectedDate ?? DateTime.Now;
+            UpdateCalendarDateRanges(reference);
+            UpdateOlder(reference);
+            UpdateCost();
         }
 
         private void DatePicker_BirthDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DatePicker_BirthDate.Text != "")
+            if (DatePicker_BirthDate.SelectedDate != null)
                 children[currentChild - 1].BirthDate = DatePicker_BirthDate.SelectedDate ?? DateTime.Now;
+            else
+                children[currentChild - 1].BirthDate = new DateTime(1, 1, 1);
+
+            var reference = DatePicker_ReferenceDate.SelectedDate ?? DateTime.Now;
+            UpdateOlder(reference);
+            UpdateCost();
+        }
+
+        private void CheckBox_SingleParent_Changed(object sender, RoutedEventArgs e)
+        {
+            UpdateCost();
+        }
+
+        private void UpdateOlder(DateTime reference)
+        {
+            var tenYearsBeforeReferenceDate = new DateTime(reference.Year - 10, reference.Month, reference.Day);
+
+            if (children[currentChild - 1].BirthDate > tenYearsBeforeReferenceDate)
+                children[currentChild - 1].Older = false;
+            else
+                children[currentChild - 1].Older = true;
+        }
+
+        private void UpdateCost()
+        {
+            double cost = 50;
+
+            int childrenYounger = 0;
+            foreach (var child in children)
+            {
+                if (child.BirthDate.Year == 1)
+                    continue;
+
+                if (child.Older)
+                {
+                    cost += 37;
+                    childrenYounger++;
+                }
+
+                if (childrenYounger > 3)
+                    break;
+            }
+
+            int childrenOlder = 0;
+            foreach (var child in children)
+            {
+                if (child.BirthDate.Year == 1)
+                    continue;
+
+                if (!child.Older)
+                {
+                    cost += 25;
+                    childrenOlder++;
+                }
+
+                if (childrenOlder > 2)
+                    break;
+            }
+
+            if (cost > 150)
+                cost = 150;
+
+            if (CheckBox_SingleParent.IsChecked ?? true)
+                cost *= 0.75;
+
+            TextBox_Cost.Text = cost.ToString();
         }
     }
 }

@@ -6,6 +6,12 @@
     
     <Application.Resources>
 
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        
         <Style TargetType="Button">
             <Setter Property="Margin" Value="1" />
             <Setter Property="FontSize" Value="24" />

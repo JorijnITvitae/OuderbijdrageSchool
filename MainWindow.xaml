@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OuderbijdrageSchool"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="300">
+        Title="MainWindow" Height="471" Width="300">
 
     <Border Padding="1" MaxWidth="300">
         <StackPanel>
+            <CheckBox x:Name="CheckBox_SingleParent" Content="Single Parent" Checked="CheckBox_SingleParent_Changed" Unchecked="CheckBox_SingleParent_Changed" />
+
+            <Border Margin="12" />
+
             <TextBlock Text="Reference Date" TextAlignment="Center" />
-            <DatePicker x:Name="DatePicker_ReferenceDate" SelectedDateChanged="DatePicker_ReferenceDate_SelectedDateChanged"/>
+            <DatePicker x:Name="DatePicker_ReferenceDate" SelectedDateChanged="DatePicker_ReferenceDate_SelectedDateChanged" />
 
             <Border Margin="12" />
 
@@ -36,6 +40,11 @@
 
             <TextBlock Text="Date of birth" TextAlignment="Center" />
             <DatePicker x:Name="DatePicker_BirthDate" SelectedDateChanged="DatePicker_BirthDate_SelectedDateChanged" />
+
+            <Border Margin="12"/>
+            
+            <TextBlock Text="Cost" TextAlignment="Center" />
+            <TextBox x:Name="TextBox_Cost" Text="" TextAlignment="Center" IsReadOnly="True" />
         </StackPanel>
     </Border>
 
